@@ -6,7 +6,14 @@
 //  Copyright © 2017 The Nueva Quest. All rights reserved.
 //
 
+/*
+ 
+ For all of this, I borrowed code from various stack-exchange answers and Grocr by Ray Wenderlich
+ 
+ */
+
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         return true
     }
 

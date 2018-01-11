@@ -1,0 +1,6 @@
+framework module Pods_DoNation {
+  umbrella header "Pods-DoNation-umbrella.h"
+
+  export *
+  module * { export * }
+}
