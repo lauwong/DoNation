@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import os.log
 
 class RequestTableViewController: UITableViewController {
     //MARK: Properties
@@ -37,6 +38,16 @@ class RequestTableViewController: UITableViewController {
             // 5
             self.requestDisplays = newItems
             self.tableView.reloadData()
+            
+            if(snapshot.childrenCount < 1) {
+                let noRequests = UIAlertController(title: "No Requests",
+                                                   message: "There are currently no requests. Come back later to check!",
+                                                   preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "OK",
+                                                 style: .default)
+                noRequests.addAction(cancelAction)
+                self.present(noRequests, animated: true, completion: nil)
+            }
         })
         
         usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: (Auth.auth().currentUser?.email)!).observe(.value, with: { snapshot in
@@ -52,7 +63,7 @@ class RequestTableViewController: UITableViewController {
                     }
                 }
             } else {
-                print("all users is nil")
+                os_log("all users is nil")
                 print(String(describing: (Auth.auth().currentUser?.email)!))
             }
         })
@@ -109,13 +120,15 @@ class RequestTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let indexPath = self.tableView.indexPathForSelectedRow {
-            // Get selected request
-            let request = requestDisplays[indexPath.row]
-            // Get our expanded view controller
-            let requestExpandedVC = segue.destination as! RequestExpandedViewController
-            // Pass selected request to our expanded view controller
-            requestExpandedVC.selectedRequest = request
+        if segue.identifier == "homeToExpanded"{
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                // Get selected request
+                let request = requestDisplays[indexPath.row]
+                // Get our expanded view controller
+                let requestExpandedVC = segue.destination as! RequestExpandedViewController
+                // Pass selected request to our expanded view controller
+                requestExpandedVC.selectedRequest = request
+            }
         }
     }
     

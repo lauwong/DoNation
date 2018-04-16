@@ -17,16 +17,17 @@ class Requests {
     var address: String
     var state: String
     var zip: String
-    var openFrom: String
-    var closingAt: String
+//    var openFrom: String
+//    var closingAt: String
     var requestedByUser: String
+    var contactEmail: String
+    var contactPhone: String
     var approved: Bool
     let ref: DatabaseReference?
     let key: String
     
-    init?(title: String, organization: String, description: String, address: String, state: String, zip: String, openFrom: String, closingAt: String, requestedByUser: String, approved: Bool, key: String = "") {
-        if title.isEmpty || organization.isEmpty || description.isEmpty || address.isEmpty ||
-            state.isEmpty || zip.isEmpty || openFrom.isEmpty || closingAt.isEmpty {
+    init?(title: String, organization: String, description: String, address: String, state: String, zip: String,/* openFrom: String, closingAt: String,*/ requestedByUser: String, contactEmail: String, contactPhone: String, approved: Bool, key: String = "") {
+        if (title.isEmpty || organization.isEmpty || description.isEmpty || address.isEmpty || state.isEmpty || zip.isEmpty || /*openFrom.isEmpty || closingAt.isEmpty ||*/ contactEmail.isEmpty || contactPhone.isEmpty) {
             return nil
         }
         self.key = key
@@ -36,9 +37,11 @@ class Requests {
         self.address = address
         self.state = state
         self.zip = zip
-        self.openFrom = openFrom
-        self.closingAt = closingAt
+//        self.openFrom = openFrom
+//        self.closingAt = closingAt
         self.requestedByUser = requestedByUser
+        self.contactEmail = contactEmail
+        self.contactPhone = contactPhone
         self.approved = approved
         self.ref = nil
     }
@@ -52,9 +55,11 @@ class Requests {
         address = snapshotValue["address"] as! String
         state = snapshotValue["state"] as! String
         zip = snapshotValue["zip"] as! String
-        openFrom = snapshotValue["openFrom"] as! String
-        closingAt = snapshotValue["closingAt"] as! String
+//        openFrom = snapshotValue["openFrom"] as! String
+//        closingAt = snapshotValue["closingAt"] as! String
         requestedByUser = snapshotValue["requestedByUser"] as! String
+        contactEmail = snapshotValue["contactEmail"] as! String
+        contactPhone = snapshotValue["contactPhone"] as! String
         approved = snapshotValue["approved"] as! Bool
         ref = snapshot.ref
     }
@@ -67,9 +72,11 @@ class Requests {
             "address": address,
             "state": state,
             "zip": zip,
-            "openFrom": openFrom,
-            "closingAt": closingAt,
+//            "openFrom": openFrom,
+//            "closingAt": closingAt,
             "requestedByUser": requestedByUser,
+            "contactEmail": contactEmail,
+            "contactPhone": contactPhone,
             "approved": approved
         ]
     }

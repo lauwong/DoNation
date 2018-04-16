@@ -17,7 +17,8 @@ class RequestExpandedViewController: UIViewController {
     @IBOutlet weak var organizationLabel: UILabel!
     @IBOutlet weak var addressCityLabel: UILabel!
     @IBOutlet weak var stateZipLabel: UILabel!
-    @IBOutlet weak var openCloseLabel: UILabel!
+//    @IBOutlet weak var openCloseLabel: UILabel!
+    @IBOutlet weak var contactInfoLabel: UILabel!
     @IBOutlet weak var needsLabelView: UITextView!
     
     
@@ -31,8 +32,9 @@ class RequestExpandedViewController: UIViewController {
         addressCityLabel.text = selectedRequest?.address
         let stateZipText = (selectedRequest?.state)! + ", " + (selectedRequest?.zip)!
         stateZipLabel.text = stateZipText
-        let openCloseText = "Open from " + (selectedRequest?.openFrom)! + " to " + (selectedRequest?.closingAt)!
-        openCloseLabel.text = openCloseText
+//        let openCloseText = "Open from " + (selectedRequest?.openFrom)! + " to " + (selectedRequest?.closingAt)!
+//        openCloseLabel.text = openCloseText
+        contactInfoLabel.text = (selectedRequest?.contactEmail)! + " ⋅ " + (selectedRequest?.contactPhone)!
         needsLabelView.text = selectedRequest?.description
     }
     

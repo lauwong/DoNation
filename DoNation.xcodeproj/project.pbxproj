@@ -9,14 +9,17 @@
 /* Begin PBXBuildFile section */
 		2B0386EF1FEDD60600D9DC26 /* NearMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0386EE1FEDD60600D9DC26 /* NearMeViewController.swift */; };
 		2B0386F11FEDD69200D9DC26 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B0386F01FEDD69200D9DC26 /* CoreLocation.framework */; };
+		2B0B4E9C201409860086BA20 /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B4E9B201409860086BA20 /* MapPin.swift */; };
 		2B3783941FD1D2590056E21E /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3783931FD1D2590056E21E /* SignUpViewController.swift */; };
-		2B3E1E7F1FBE5538000D25DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B3E1E7E1FBE5538000D25DD /* GoogleService-Info.plist */; };
 		2B4A39531FA81CBE00EE09D3 /* RequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4A39521FA81CBE00EE09D3 /* RequestTableViewController.swift */; };
 		2B4A39551FA81D4800EE09D3 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4A39541FA81D4800EE09D3 /* Requests.swift */; };
 		2B5AD3421FC361C800588BE1 /* RequestExpandedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5AD3411FC361C800588BE1 /* RequestExpandedViewController.swift */; };
 		2B5AD3461FC365DE00588BE1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5AD3451FC365DE00588BE1 /* User.swift */; };
 		2B8248731FBBAADD00360E1B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8248721FBBAADD00360E1B /* LoginViewController.swift */; };
 		2B9B8B931FA55F250078F41F /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9B8B921FA55F250078F41F /* RequestTableViewCell.swift */; };
+		2BA08F9B202E1E4F000111DA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA08F9A202E1E4F000111DA /* Crashlytics.framework */; };
+		2BA08F9D202E1E56000111DA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA08F9C202E1E55000111DA /* Fabric.framework */; };
+		2BA08FA0202E2050000111DA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BA08F9F202E204F000111DA /* GoogleService-Info.plist */; };
 		2BB0C9B61FCFC9F30093FA74 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB0C9B51FCFC9F30093FA74 /* SettingsViewController.swift */; };
 		2BCC62451F95A26C003DFE7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCC62441F95A26C003DFE7B /* AppDelegate.swift */; };
 		2BCC62471F95A26D003DFE7B /* AddRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCC62461F95A26C003DFE7B /* AddRequestViewController.swift */; };
@@ -31,14 +34,18 @@
 		12DC0D7A23A91143F51A4BDD /* Pods-DoNation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoNation.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoNation/Pods-DoNation.release.xcconfig"; sourceTree = "<group>"; };
 		2B0386EE1FEDD60600D9DC26 /* NearMeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeViewController.swift; sourceTree = "<group>"; };
 		2B0386F01FEDD69200D9DC26 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2B0B4E9B201409860086BA20 /* MapPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPin.swift; sourceTree = "<group>"; };
 		2B3783931FD1D2590056E21E /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		2B3E1E7E1FBE5538000D25DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		2B4A39521FA81CBE00EE09D3 /* RequestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTableViewController.swift; sourceTree = "<group>"; };
 		2B4A39541FA81D4800EE09D3 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		2B5AD3411FC361C800588BE1 /* RequestExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestExpandedViewController.swift; sourceTree = "<group>"; };
 		2B5AD3451FC365DE00588BE1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		2B801A3A2028DF46006DA5C3 /* DoNation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DoNation.entitlements; sourceTree = "<group>"; };
 		2B8248721FBBAADD00360E1B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2B9B8B921FA55F250078F41F /* RequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
+		2BA08F9A202E1E4F000111DA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2BA08F9C202E1E55000111DA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		2BA08F9F202E204F000111DA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2BB0C9B51FCFC9F30093FA74 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		2BCC62411F95A26C003DFE7B /* DoNation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoNation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BCC62441F95A26C003DFE7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,7 +65,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B0386F11FEDD69200D9DC26 /* CoreLocation.framework in Frameworks */,
+				2BA08F9B202E1E4F000111DA /* Crashlytics.framework in Frameworks */,
 				5A8AFEE03C4B0C30C66CAF38 /* Pods_DoNation.framework in Frameworks */,
+				2BA08F9D202E1E56000111DA /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +104,7 @@
 				2BDF104E1FD1FE0000B17722 /* UsersWithStatus.swift */,
 				2B9B8B921FA55F250078F41F /* RequestTableViewCell.swift */,
 				2B5AD3451FC365DE00588BE1 /* User.swift */,
+				2B0B4E9B201409860086BA20 /* MapPin.swift */,
 			);
 			name = Models;
 			path = ..;
@@ -121,6 +131,7 @@
 		2BCC62431F95A26C003DFE7B /* DoNation */ = {
 			isa = PBXGroup;
 			children = (
+				2B801A3A2028DF46006DA5C3 /* DoNation.entitlements */,
 				2BCC62441F95A26C003DFE7B /* AppDelegate.swift */,
 				2B5AD3471FC4E2DB00588BE1 /* ViewControllers */,
 				2B5AD3481FC4E31100588BE1 /* Models */,
@@ -128,7 +139,7 @@
 				2BCC624B1F95A26D003DFE7B /* Assets.xcassets */,
 				2BCC624D1F95A26D003DFE7B /* LaunchScreen.storyboard */,
 				2BCC62501F95A26D003DFE7B /* Info.plist */,
-				2B3E1E7E1FBE5538000D25DD /* GoogleService-Info.plist */,
+				2BA08F9F202E204F000111DA /* GoogleService-Info.plist */,
 			);
 			path = DoNation;
 			sourceTree = "<group>";
@@ -136,6 +147,8 @@
 		4435CB5095F4E9E5A2036734 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2BA08F9C202E1E55000111DA /* Fabric.framework */,
+				2BA08F9A202E1E4F000111DA /* Crashlytics.framework */,
 				2B0386F01FEDD69200D9DC26 /* CoreLocation.framework */,
 				93E5BD39C8BFBF0FFD868416 /* Pods_DoNation.framework */,
 			);
@@ -155,6 +168,7 @@
 				2BCC623F1F95A26C003DFE7B /* Resources */,
 				DBD69816473BDE91182DB3BD /* [CP] Embed Pods Frameworks */,
 				205D4E4F1D5153F379F7FD40 /* [CP] Copy Pods Resources */,
+				2BA08F9E202E1E81000111DA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -178,6 +192,11 @@
 					2BCC62401F95A26C003DFE7B = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -205,7 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BCC624F1F95A26D003DFE7B /* LaunchScreen.storyboard in Resources */,
-				2B3E1E7F1FBE5538000D25DD /* GoogleService-Info.plist in Resources */,
+				2BA08FA0202E2050000111DA /* GoogleService-Info.plist in Resources */,
 				2BCC624C1F95A26D003DFE7B /* Assets.xcassets in Resources */,
 				2BCC624A1F95A26D003DFE7B /* Main.storyboard in Resources */,
 			);
@@ -246,6 +265,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2BA08F9E202E1E81000111DA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" d0d2dcd888ff12358bf894f1b6049016a14839ec a04e404d531e76da1bb774e36b4be4ff6c78102f1bcb1a55b6bc8203b9f76885";
 		};
 		DBD69816473BDE91182DB3BD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -289,6 +321,7 @@
 				2B4A39531FA81CBE00EE09D3 /* RequestTableViewController.swift in Sources */,
 				2B4A39551FA81D4800EE09D3 /* Requests.swift in Sources */,
 				2B9B8B931FA55F250078F41F /* RequestTableViewCell.swift in Sources */,
+				2B0B4E9C201409860086BA20 /* MapPin.swift in Sources */,
 				2BB0C9B61FCFC9F30093FA74 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,11 +460,17 @@
 			baseConfigurationReference = 9213509EE2C8D059EC25328D /* Pods-DoNation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RS896YZVVX;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NGV232X4L3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DoNation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lwong.DoNation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lwong.donation.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -443,11 +482,17 @@
 			baseConfigurationReference = 12DC0D7A23A91143F51A4BDD /* Pods-DoNation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RS896YZVVX;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = NGV232X4L3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = DoNation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.lwong.DoNation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lwong.donation.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
