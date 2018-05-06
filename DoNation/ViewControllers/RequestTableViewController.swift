@@ -23,10 +23,22 @@ class RequestTableViewController: UITableViewController {
         ref = Database.database().reference(withPath: "requests")
         usersRef = Database.database().reference(withPath: "donors")
         self.navigationController?.navigationBar.tintColor = UIColor.white
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
-                                                                 style: UIBarButtonItemStyle.plain ,
-                                                                 target: self, action: #selector(orgOptionsPressed))
+        
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
+                                                                         style: UIBarButtonItemStyle.plain ,
+                                                                         target: self, action: #selector(self.addRequestForm))
+                self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
+                                                                         style: UIBarButtonItemStyle.plain ,
+                                                                         target: self, action: #selector(self.signOutPressed))
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
+                                                                         style: UIBarButtonItemStyle.plain ,
+                                                                         target: self, action: #selector(self.orgOptionsPressed))
+                self.navigationItem.leftBarButtonItem = nil
+            }
+        }
         
         // 1
         ref.observe(.value, with: { snapshot in
@@ -116,7 +128,7 @@ class RequestTableViewController: UITableViewController {
         return cell
     }
     
-    @IBAction func signOutPressed(_ sender: UIBarButtonItem) {
+    @objc func signOutPressed() {
         dismiss(animated: true, completion: nil)
         try! Auth.auth().signOut()
     }
