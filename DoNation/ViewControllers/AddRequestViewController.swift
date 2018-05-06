@@ -55,11 +55,11 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     let datePicker = UIDatePicker()
     let listToUsers = "ListToUsers"
-    let ref = Database.database().reference(withPath: "requests")
+    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ref = Database.database().reference(withPath: "requests")
         // Do any additional setup after loading the view, typically from a nib.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddRequestViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()

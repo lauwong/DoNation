@@ -11,7 +11,7 @@ import Firebase
 
 class RequestExpandedViewController: UIViewController {
     
-    let ref = Database.database().reference(withPath: "requests")
+    var ref: DatabaseReference!
     var selectedRequest: Requests?
     
     @IBOutlet weak var organizationLabel: UILabel!
@@ -24,7 +24,7 @@ class RequestExpandedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ref = Database.database().reference(withPath: "requests")
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
         self.title = selectedRequest?.title

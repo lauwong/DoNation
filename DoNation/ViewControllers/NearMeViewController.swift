@@ -15,12 +15,13 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     var requestDisplays = [Requests]()
-    let ref = Database.database().reference(withPath: "requests")
+    var ref: DatabaseReference!
     var locationManager: CLLocationManager!
     static var chosenRequest: Requests = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", /* openFrom: "test", closingAt: "test",*/ requestedByUser: "test", contactEmail: "test", contactPhone: "test", approved: false)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference(withPath: "requests")
         mapView.showsUserLocation = true
         mapView.delegate = self
         ref.observe(.value, with: { snapshot in

@@ -193,6 +193,9 @@
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};

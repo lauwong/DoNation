@@ -12,17 +12,17 @@ import Firebase
 class UsersWithStatus {
     //MARK: Properties
     var email: String
-    var isDonor: Bool
+    var isApproved: Bool
     let usersRef: DatabaseReference?
     let key: String
     
-    init?(email: String, isDonor: Bool, key: String = "") {
+    init?(email: String, isApproved: Bool, key: String = "") {
         if email.isEmpty {
             return nil
         }
         self.key = key
         self.email = email
-        self.isDonor = isDonor
+        self.isApproved = isApproved
         self.usersRef = nil
     }
     
@@ -30,14 +30,14 @@ class UsersWithStatus {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         email = snapshotValue["email"] as! String
-        isDonor = snapshotValue["isDonor"] as! Bool
+        isApproved = snapshotValue["isApproved"] as! Bool
         usersRef = snapshot.ref
     }
     
     func toAnyObject() -> Any {
         return [
             "email": email,
-            "isDonor": isDonor,
+            "isApproved": isApproved,
         ]
     }
     
