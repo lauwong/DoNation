@@ -37,43 +37,43 @@ class RequestTableViewController: UITableViewController {
             for item in snapshot.children {
                 // 4
                 let requestItem = Requests(snapshot: item as! DataSnapshot)
-                if(requestItem.approved){
-                    newItems.append(requestItem)
-                }
+                
+                self.usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: requestItem.requestedByUser).observe(.value, with: { snapshot in
+//                    print(snapshot)
+                    if let allUsers = snapshot.value as? [String:AnyObject] {
+                        for (_,users) in allUsers {
+                            let userIsApproved = users["isApproved"]
+//                            print(userIsApproved)
+                            if let stringBoolApproved = userIsApproved, let boolApprovedTwo = stringBoolApproved as? Int {
+//                                print(boolApprovedTwo)
+                                if (boolApprovedTwo == 1) {
+                                    newItems.append(requestItem)
+                                }
+                            }
+                        }
+                    } else {
+//                        os_log("all users is nil")
+//                        print(String(describing: (Auth.auth().currentUser?.email)!))
+                    }
+                    
+                    self.requestDisplays = newItems
+                    self.tableView.reloadData()
+                    
+                    if(self.requestDisplays.count < 1) {
+                        let noRequests = UIAlertController(title: "No Requests",
+                                                           message: "There are currently no requests. Come back later to check!",
+                                                           preferredStyle: .alert)
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .default)
+                        noRequests.addAction(cancelAction)
+                        self.present(noRequests, animated: true, completion: nil)
+                    }
+                    
+                })
             }
             
             // 5
-            self.requestDisplays = newItems
-            self.tableView.reloadData()
-            
-            if(snapshot.childrenCount < 1) {
-                let noRequests = UIAlertController(title: "No Requests",
-                                                   message: "There are currently no requests. Come back later to check!",
-                                                   preferredStyle: .alert)
-                let cancelAction = UIAlertAction(title: "OK",
-                                                 style: .default)
-                noRequests.addAction(cancelAction)
-                self.present(noRequests, animated: true, completion: nil)
-            }
         })
-        
-//        usersRef.child("donors").queryOrdered(byChild: "email").queryEqual(toValue: (Auth.auth().currentUser?.email)!).observe(.value, with: { snapshot in
-//            print(snapshot)
-//            if let allUsers = snapshot.value as? [String:AnyObject] {
-//                for (_,users) in allUsers {
-//                    let userIsApproved = users["isApproved"]
-//                    if let stringBoolApproved = userIsApproved, let boolApprovedTwo = stringBoolApproved {
-//                        if String(describing: boolApprovedTwo) == "1" {
-//                        }
-//                        print (String(describing: boolApprovedTwo))
-//                    }
-//                }
-//            } else {
-//                os_log("all users is nil")
-//                print(String(describing: (Auth.auth().currentUser?.email)!))
-//            }
-//        })
-        
         
 
         // Uncomment the following line to preserve selection between presentations

@@ -16,12 +16,14 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var requestDisplays = [Requests]()
     var ref: DatabaseReference!
+    var usersRef: DatabaseReference!
     var locationManager: CLLocationManager!
-    static var chosenRequest: Requests = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", /* openFrom: "test", closingAt: "test",*/ requestedByUser: "test", contactEmail: "test", contactPhone: "test", approved: false)!
+    static var chosenRequest: Requests = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", /* openFrom: "test", closingAt: "test",*/ requestedByUser: "test", contactEmail: "test", contactPhone: "test")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ref = Database.database().reference(withPath: "requests")
+        usersRef = Database.database().reference(withPath: "donors")
         mapView.showsUserLocation = true
         mapView.delegate = self
         ref.observe(.value, with: { snapshot in
@@ -35,29 +37,41 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
                 
                 let requestItem = Requests(snapshot: item as! DataSnapshot)
                 
-                if requestItem.approved {
-                    let fullAddress = requestItem.address + ", " + requestItem.state + " " + requestItem.zip
-                    let geoCoder = CLGeocoder()
-                    geoCoder.geocodeAddressString(fullAddress) { (placemarks, error) in
-                        let placemark = placemarks?.first
-                        
-                        if let lat = placemark?.location?.coordinate.latitude {
-                            latitude = lat
-                            
+                self.usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: requestItem.requestedByUser).observe(.value, with: { snapshot in
+                    if let allUsers = snapshot.value as? [String:AnyObject] {
+                        for (_,users) in allUsers {
+                            let userIsApproved = users["isApproved"]
+                            if let stringBoolApproved = userIsApproved, let boolApprovedTwo = stringBoolApproved {
+                                if String(describing: boolApprovedTwo) == "1" {
+                                    let fullAddress = requestItem.address + ", " + requestItem.state + " " + requestItem.zip
+                                    let geoCoder = CLGeocoder()
+                                    geoCoder.geocodeAddressString(fullAddress) { (placemarks, error) in
+                                        let placemark = placemarks?.first
+                                        
+                                        if let lat = placemark?.location?.coordinate.latitude {
+                                            latitude = lat
+                                            
+                                        }
+                                        
+                                        if let lon = placemark?.location?.coordinate.longitude {
+                                            longitude = lon
+                                        }
+                                        
+                                        let annotation = MapPin(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), title: requestItem.title, subtitle: requestItem.description)
+                                        self.mapView.addAnnotation(annotation)
+                                        
+                                        // Use your location
+                                    }
+                                    
+                                    newItems.append(requestItem)
+                                }
+                            }
                         }
-                        
-                        if let lon = placemark?.location?.coordinate.longitude {
-                            longitude = lon
-                        }
-                        
-                        let annotation = MapPin(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), title: requestItem.title, subtitle: requestItem.description)
-                        self.mapView.addAnnotation(annotation)
-                        
-                        // Use your location
+                    } else {
+                        //                        os_log("all users is nil")
+                        //                        print(String(describing: (Auth.auth().currentUser?.email)!))
                     }
-                    
-                     newItems.append(requestItem)
-                }
+                })
             }
             
             self.requestDisplays = newItems

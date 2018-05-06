@@ -169,26 +169,29 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
         let emailAddress = self.emailTextField.text!
         let phoneNumber = self.phoneTextField.text!
         
-        // 2
-        let requestItem = Requests(title: titleText, organization: organizationText, description: descriptionText, address: addressText, state: stateText, zip: zipText, requestedByUser: self.user.email, contactEmail: emailAddress, contactPhone: phoneNumber, approved: false)
-        
-        if requestItem == nil {
-            let alertEmpty = UIAlertController(title: "Empty Field",
-                                               message: "You have an empty field. Please fill every field to submit.",
-                                               preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: "Dismiss",
-                                             style: .default)
-            alertEmpty.addAction(cancelAction)
-            present(alertEmpty, animated: true, completion: nil)
-        } else{
-            //3
-            let requestItemRef = self.ref.child(titleText.lowercased())
+        if let currentUser = Auth.auth().currentUser, let currentEmail = currentUser.email {
+            let requestItem = Requests(title: titleText, organization: organizationText, description: descriptionText, address: addressText, state: stateText, zip: zipText, requestedByUser: currentEmail, contactEmail: emailAddress, contactPhone: phoneNumber)
             
-            // 4
-            requestItemRef.setValue(requestItem?.toAnyObject())
-            
-            dismiss(animated: true, completion: nil)
+            if requestItem == nil {
+                let alertEmpty = UIAlertController(title: "Empty Field",
+                                                   message: "You have an empty field. Please fill every field to submit.",
+                                                   preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "Dismiss",
+                                                 style: .default)
+                alertEmpty.addAction(cancelAction)
+                present(alertEmpty, animated: true, completion: nil)
+            } else{
+                //3
+                let requestItemRef = self.ref.child(titleText.lowercased())
+                
+                // 4
+                requestItemRef.setValue(requestItem?.toAnyObject())
+                
+                dismiss(animated: true, completion: nil)
+            }
         }
+        
+        // 2
     }
     
     @IBAction func requestCancelPressed(_ sender: UIBarButtonItem) {

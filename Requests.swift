@@ -22,11 +22,10 @@ class Requests {
     var requestedByUser: String
     var contactEmail: String
     var contactPhone: String
-    var approved: Bool
     let ref: DatabaseReference?
     let key: String
     
-    init?(title: String, organization: String, description: String, address: String, state: String, zip: String,/* openFrom: String, closingAt: String,*/ requestedByUser: String, contactEmail: String, contactPhone: String, approved: Bool, key: String = "") {
+    init?(title: String, organization: String, description: String, address: String, state: String, zip: String,/* openFrom: String, closingAt: String,*/ requestedByUser: String, contactEmail: String, contactPhone: String, key: String = "") {
         if (title.isEmpty || organization.isEmpty || description.isEmpty || address.isEmpty || state.isEmpty || zip.isEmpty || /*openFrom.isEmpty || closingAt.isEmpty ||*/ contactEmail.isEmpty || contactPhone.isEmpty) {
             return nil
         }
@@ -42,7 +41,6 @@ class Requests {
         self.requestedByUser = requestedByUser
         self.contactEmail = contactEmail
         self.contactPhone = contactPhone
-        self.approved = approved
         self.ref = nil
     }
     
@@ -60,7 +58,6 @@ class Requests {
         requestedByUser = snapshotValue["requestedByUser"] as! String
         contactEmail = snapshotValue["contactEmail"] as! String
         contactPhone = snapshotValue["contactPhone"] as! String
-        approved = snapshotValue["approved"] as! Bool
         ref = snapshot.ref
     }
     
@@ -77,7 +74,6 @@ class Requests {
             "requestedByUser": requestedByUser,
             "contactEmail": contactEmail,
             "contactPhone": contactPhone,
-            "approved": approved
         ]
     }
     
