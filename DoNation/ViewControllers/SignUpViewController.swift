@@ -43,6 +43,7 @@ class SignUpViewController: UIViewController {
             if let signUpPass = signUpPwTextField.text {
                 if signUpPass == signUpConfirmPwTextField.text {
                     Auth.auth().createUser(withEmail: signUpEmail, password: signUpPass) { user, error in
+//                        print(Auth.auth().currentUser)
                         if error == nil {
                             if let user = Auth.auth().currentUser {
                                 user.sendEmailVerification(completion: nil)
@@ -53,7 +54,7 @@ class SignUpViewController: UIViewController {
                     let userItem = UsersWithStatus(email: signUpEmail, isApproved: isApproved)
                     if userItem == nil {
                         emptyFieldAlert()
-                    } else{
+                    } else {
                         let userItemRef = self.usersRef.child("users").childByAutoId()
                         userItemRef.setValue(userItem?.toAnyObject())
                         dismiss(animated: true, completion: nil)

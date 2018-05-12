@@ -26,12 +26,21 @@ class RequestTableViewController: UITableViewController {
         
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
-                                                                         style: UIBarButtonItemStyle.plain ,
-                                                                         target: self, action: #selector(self.addRequestForm))
-                self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
-                                                                         style: UIBarButtonItemStyle.plain ,
-                                                                         target: self, action: #selector(self.signOutPressed))
+                if let user = Auth.auth().currentUser {
+                    if user.isEmailVerified {
+                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.addRequestForm))
+                        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.signOutPressed))
+                    } else {
+                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.orgOptionsPressed))
+                        self.navigationItem.leftBarButtonItem = nil
+                    }
+                }
             } else {
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
                                                                          style: UIBarButtonItemStyle.plain ,
@@ -129,7 +138,7 @@ class RequestTableViewController: UITableViewController {
     }
     
     @objc func signOutPressed() {
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
         try! Auth.auth().signOut()
     }
     
@@ -143,97 +152,115 @@ class RequestTableViewController: UITableViewController {
         let logInAction = UIAlertAction(title: "Log In",
                                         style: .default) {
                                             (_) in
-                                            let alert = UIAlertController(title: "Log In",
-                                                                          message: "",
-                                                                          preferredStyle: .alert)
-                                            
-                                            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-                                                
-                                                let emailField = alert.textFields![0]
-                                                let passwordField = alert.textFields![1]
-                                                
-                                                Auth.auth().signIn(withEmail: emailField.text!,
-                                                                   password: passwordField.text!){
-                                                                    (user, error) in
-                                                                    if Auth.auth().currentUser != nil {
-                                                                            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
-                                                                                                     style: UIBarButtonItemStyle.plain ,
-                                                                                                        target: self, action: #selector(self.addRequestForm))
-                                                                    } else {
-                                                                        let alertController = UIAlertController(title: "Error", message: "Authentication failed. Check your connection and credentials.", preferredStyle: .alert)
-                                                                        
-                                                                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                                                                        alertController.addAction(defaultAction)
-                                                                        
-                                                                        self.present(alertController, animated: true, completion: nil)
-                                                                    }
-                                                }
-                                                }
-                                            
-                                            let cancelAction = UIAlertAction(title: "Cancel",
-                                                                             style: .cancel)
-                                            
-                                            alert.addTextField { textEmail in
-                                                textEmail.placeholder = "Email"
-                                            }
-                                            
-                                            alert.addTextField { textPassword in
-                                                textPassword.isSecureTextEntry = true
-                                                textPassword.placeholder = "Password"
-                                            }
-                                            
-                                            alert.addAction(saveAction)
-                                            alert.addAction(cancelAction)
-                                            
-                                            self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: "Log In",
+                                          message: "",
+                                          preferredStyle: .alert)
+            
+            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+                
+                let emailField = alert.textFields![0]
+                let passwordField = alert.textFields![1]
+                
+                Auth.auth().signIn(withEmail: emailField.text!,
+                                   password: passwordField.text!){
+                                    (user, error) in
+                    if let user = Auth.auth().currentUser {
+                        if user.isEmailVerified {
+                            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addRequestForm))
+                            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
+                                                                                    style: UIBarButtonItemStyle.plain ,
+                                                                                    target: self, action: #selector(self.signOutPressed))
+                        } else {
+                            guard let emailAddress = emailField.text else{
+                                return
+                            }
+                            let alertVC = UIAlertController(title: "Error", message: "Sorry. Your email address has not yet been verified. Do you want us to send another verification email to \(emailAddress)?", preferredStyle: .alert)
+                            let alertActionOkay = UIAlertAction(title: "Okay", style: .default) {
+                                (_) in
+                                user.sendEmailVerification(completion: nil)
+                            }
+                            let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                            
+                            alertVC.addAction(alertActionCancel)
+                            alertVC.addAction(alertActionOkay)
+                            self.present(alertVC, animated: true, completion: nil)
+                        }
+                    } else {
+                        let alertController = UIAlertController(title: "Error", message: "Authentication failed. Check your connection and credentials.", preferredStyle: .alert)
+                        
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alertController.addAction(defaultAction)
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel",
+                                             style: .cancel)
+            
+            alert.addTextField { textEmail in
+                textEmail.placeholder = "Email"
+            }
+            
+            alert.addTextField { textPassword in
+                textPassword.isSecureTextEntry = true
+                textPassword.placeholder = "Password"
+            }
+            
+            alert.addAction(saveAction)
+            alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true, completion: nil)
 
         }
         let signUpAction = UIAlertAction(title: "Sign Up",
                                          style: .default) {
                                             (_) in
-                                            let alert = UIAlertController(title: "Sign Up",
-                                                                          message: "",
-                                                                          preferredStyle: .alert)
-                                            
-                                            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-                                                
-                                                let emailField = alert.textFields![0]
-                                                let passwordField = alert.textFields![1]
-                                                
-                                                Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
-                                                    if error == nil {
-                                                        Auth.auth().signIn(withEmail: emailField.text!,
-                                                                           password: passwordField.text!)
-                                                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
-                                                                                         style: UIBarButtonItemStyle.plain ,
-                                                                                         target: self, action: #selector(self.addRequestForm))
-                                                        let userItem = UsersWithStatus(email: emailField.text!, isApproved: false)
-                                                        if userItem == nil {
-//                                                           emptyFieldAlert()
-                                                        } else{
-                                                            let userItemRef = self.usersRef.child("users").childByAutoId()
-                                                            userItemRef.setValue(userItem?.toAnyObject())
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            
-                                            let cancelAction = UIAlertAction(title: "Cancel",
-                                                                             style: .cancel)
-                                            
-                                            alert.addTextField { textEmail in
-                                                textEmail.placeholder = "Email"
-                                            }
-                                            
-                                            alert.addTextField { textPassword in
-                                                textPassword.isSecureTextEntry = true
-                                                textPassword.placeholder = "Password"
-                                            }
-                                            
-                                            alert.addAction(saveAction)
-                                            alert.addAction(cancelAction)
-                                            
-                                            self.present(alert, animated: true, completion: nil)
+                                            self.performSegue(withIdentifier: "SignUpSegue", sender: nil)
+//                                            let alert = UIAlertController(title: "Sign Up",
+//                                                                          message: "",
+//                                                                          preferredStyle: .alert)
+//
+//                                            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//
+//                                                let emailField = alert.textFields![0]
+//                                                let passwordField = alert.textFields![1]
+//
+//                                                Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
+//                                                    if error == nil {
+//                                                        Auth.auth().signIn(withEmail: emailField.text!,
+//                                                                           password: passwordField.text!)
+//                                                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
+//                                                                                         style: UIBarButtonItemStyle.plain ,
+//                                                                                         target: self, action: #selector(self.addRequestForm))
+//                                                        let userItem = UsersWithStatus(email: emailField.text!, isApproved: false)
+//                                                        if userItem == nil {
+////                                                           emptyFieldAlert()
+//                                                        } else{
+//                                                            let userItemRef = self.usersRef.child("users").childByAutoId()
+//                                                            userItemRef.setValue(userItem?.toAnyObject())
+//                                                        }
+//                                                    }
+//                                                }
+//                                            }
+//
+//                                            let cancelAction = UIAlertAction(title: "Cancel",
+//                                                                             style: .cancel)
+//
+//                                            alert.addTextField { textEmail in
+//                                                textEmail.placeholder = "Email"
+//                                            }
+//
+//                                            alert.addTextField { textPassword in
+//                                                textPassword.isSecureTextEntry = true
+//                                                textPassword.placeholder = "Password"
+//                                            }
+//
+//                                            alert.addAction(saveAction)
+//                                            alert.addAction(cancelAction)
+//
+//                                            self.present(alert, animated: true, completion: nil)
         }
         
         orgOptions.addAction(cancelAction)
