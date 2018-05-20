@@ -463,7 +463,6 @@
 			baseConfigurationReference = 9213509EE2C8D059EC25328D /* Pods-DoNation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NGV232X4L3;
@@ -485,7 +484,6 @@
 			baseConfigurationReference = 12DC0D7A23A91143F51A4BDD /* Pods-DoNation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NGV232X4L3;
