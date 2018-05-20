@@ -8,18 +8,20 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var changePwTextField: UITextField!
     @IBOutlet weak var confirmPwTextField: UITextField!
     @IBOutlet weak var oldPwTextField: UITextField!
     @IBOutlet weak var changeEmailTextField: UITextField!
-    let usersRef = Database.database().reference(withPath: "users")
+    var usersRef: DatabaseReference!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usersRef = Database.database().reference(withPath: "donors")
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SettingsViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()
         
@@ -34,26 +36,33 @@ class SettingsViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Delete",
                                        style: .default) { action in
                                         
-                                        self.usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: Auth.auth().currentUser?.email).observeSingleEvent(of: .value, with: { snapshot in
-                                            for item in snapshot.children {
-                                                // 4
-                                                let userItem = UsersWithStatus(snapshot: item as! DataSnapshot)
-                                                if(userItem.email == Auth.auth().currentUser?.email){
-                                                    userItem.usersRef?.removeValue()
-                                                }
-                                            }
-                                        })
+            self.usersRef.child("donors").queryOrdered(byChild: "email").queryEqual(toValue: Auth.auth().currentUser?.email).observeSingleEvent(of: .value, with: { snapshot in
+                for item in snapshot.children {
+                    // 4
+                    let userItem = UsersWithStatus(snapshot: item as! DataSnapshot)
+                    if(userItem.email == Auth.auth().currentUser?.email){
+                        userItem.usersRef?.removeValue()
+                    }
+                }
+            })
+            
+            if let user = Auth.auth().currentUser {
+                user.delete { error in
+                    if let error = error {
+                        // An error happened.
+                        print(error)
+                    } else {
+                        // Account deleted.
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
                                         
-                                        if let user = Auth.auth().currentUser {
-                                            user.delete { error in
-                                                if let error = error {
-                                                    // An error happened.
-                                                    print(error)
-                                                } else {
-                                                    // Account deleted.
-                                                }
-                                            }
-                                        }
+            Auth.auth().currentUser?.delete(completion: { (err) in
+                
+                print(err?.localizedDescription as Any)
+                
+            })
                                         
         }
         
@@ -126,6 +135,29 @@ class SettingsViewController: UIViewController {
             
         }
     }
+    
+    @IBAction func reportIssuePressed(_ sender: UIButton) {
+        sendEmail()
+    }
+    
+    func sendEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["nationofgood@gmail.com"])
+            mail.setSubject("DoNation Bug Report")
+            
+            self.present(mail, animated: true)
+        } else {
+            // show failure alert
+            print("Cannot send mail")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
     
     
     @objc func dismissKeyboard() {

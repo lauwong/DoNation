@@ -11,19 +11,20 @@ import Firebase
 
 class RequestExpandedViewController: UIViewController {
     
-    let ref = Database.database().reference(withPath: "requests")
+    var ref: DatabaseReference!
     var selectedRequest: Requests?
     
     @IBOutlet weak var organizationLabel: UILabel!
     @IBOutlet weak var addressCityLabel: UILabel!
     @IBOutlet weak var stateZipLabel: UILabel!
-    @IBOutlet weak var openCloseLabel: UILabel!
+//    @IBOutlet weak var openCloseLabel: UILabel!
+    @IBOutlet weak var contactInfoLabel: UILabel!
     @IBOutlet weak var needsLabelView: UITextView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ref = Database.database().reference(withPath: "requests")
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
         self.title = selectedRequest?.title
@@ -31,8 +32,9 @@ class RequestExpandedViewController: UIViewController {
         addressCityLabel.text = selectedRequest?.address
         let stateZipText = (selectedRequest?.state)! + ", " + (selectedRequest?.zip)!
         stateZipLabel.text = stateZipText
-        let openCloseText = "Open from " + (selectedRequest?.openFrom)! + " to " + (selectedRequest?.closingAt)!
-        openCloseLabel.text = openCloseText
+//        let openCloseText = "Open from " + (selectedRequest?.openFrom)! + " to " + (selectedRequest?.closingAt)!
+//        openCloseLabel.text = openCloseText
+        contactInfoLabel.text = (selectedRequest?.contactEmail)! + " ⋅ " + (selectedRequest?.contactPhone)!
         needsLabelView.text = selectedRequest?.description
     }
     

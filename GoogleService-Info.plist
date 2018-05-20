@@ -17,21 +17,21 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.lwong.DoNation</string>
+	<string>com.lwong.donation.app</string>
 	<key>PROJECT_ID</key>
 	<string>donation-58d5d</string>
 	<key>STORAGE_BUCKET</key>
 	<string>donation-58d5d.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:484994754237:ios:3fbf2572fc353f81</string>
 	<key>DATABASE_URL</key>

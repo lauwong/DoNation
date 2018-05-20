@@ -8,18 +8,47 @@
 
 import UIKit
 import Firebase
+import os.log
 
 class RequestTableViewController: UITableViewController {
     //MARK: Properties
     
     var requestDisplays = [Requests]()
     var user: User!
-    let ref = Database.database().reference(withPath: "requests")
-    let usersRef = Database.database().reference(withPath: "users")
+    var ref: DatabaseReference!
+    var usersRef: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference(withPath: "requests")
+        usersRef = Database.database().reference(withPath: "donors")
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil {
+                if let user = Auth.auth().currentUser {
+                    if user.isEmailVerified {
+                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.addRequestForm))
+                        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.signOutPressed))
+                    } else {
+                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
+                                                                                 style: UIBarButtonItemStyle.plain ,
+                                                                                 target: self, action: #selector(self.orgOptionsPressed))
+                        self.navigationItem.leftBarButtonItem = nil
+                    }
+                }
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "tripleBarIcon"),
+                                                                         style: UIBarButtonItemStyle.plain ,
+                                                                         target: self, action: #selector(self.orgOptionsPressed))
+                self.navigationItem.leftBarButtonItem = nil
+            }
+        }
+        
         // 1
         ref.observe(.value, with: { snapshot in
             // 2
@@ -29,34 +58,43 @@ class RequestTableViewController: UITableViewController {
             for item in snapshot.children {
                 // 4
                 let requestItem = Requests(snapshot: item as! DataSnapshot)
-                if(requestItem.approved){
-                    newItems.append(requestItem)
-                }
+                
+                self.usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: requestItem.requestedByUser).observe(.value, with: { snapshot in
+//                    print(snapshot)
+                    if let allUsers = snapshot.value as? [String:AnyObject] {
+                        for (_,users) in allUsers {
+                            let userIsApproved = users["isApproved"]
+//                            print(userIsApproved)
+                            if let stringBoolApproved = userIsApproved, let boolApprovedTwo = stringBoolApproved as? Int {
+//                                print(boolApprovedTwo)
+                                if (boolApprovedTwo == 1) {
+                                    newItems.append(requestItem)
+                                }
+                            }
+                        }
+                    } else {
+//                        os_log("all users is nil")
+//                        print(String(describing: (Auth.auth().currentUser?.email)!))
+                    }
+                    
+                    self.requestDisplays = newItems
+                    self.tableView.reloadData()
+                    
+                    if(self.requestDisplays.count < 1) {
+                        let noRequests = UIAlertController(title: "No Requests",
+                                                           message: "There are currently no requests. Come back later to check!",
+                                                           preferredStyle: .alert)
+                        let cancelAction = UIAlertAction(title: "OK",
+                                                         style: .default)
+                        noRequests.addAction(cancelAction)
+                        self.present(noRequests, animated: true, completion: nil)
+                    }
+                    
+                })
             }
             
             // 5
-            self.requestDisplays = newItems
-            self.tableView.reloadData()
         })
-        
-        usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: (Auth.auth().currentUser?.email)!).observe(.value, with: { snapshot in
-            print(snapshot)
-            if let allUsers = snapshot.value as? [String:AnyObject] {
-                for (_,users) in allUsers {
-                    let userIsDonor = users["isDonor"]
-                    if let stringBoolDonor = userIsDonor, let boolDonorTwo = stringBoolDonor {
-                        if String(describing: boolDonorTwo) == "1" {
-                            self.navigationItem.rightBarButtonItem = nil
-                        }
-                        print (String(describing: boolDonorTwo))
-                    }
-                }
-            } else {
-                print("all users is nil")
-                print(String(describing: (Auth.auth().currentUser?.email)!))
-            }
-        })
-        
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -99,23 +137,153 @@ class RequestTableViewController: UITableViewController {
         return cell
     }
     
-    @IBAction func signOutPressed(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+    @objc func signOutPressed() {
+        //dismiss(animated: true, completion: nil)
         try! Auth.auth().signOut()
     }
     
-    @IBAction func addRequestPressed(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "homeToAddRequestNav", sender: self)
+    @objc func orgOptionsPressed() {
+        let orgOptions = UIAlertController(title: "Organization Options",
+                                           message: "Use an organization account to post requests!",
+                                           preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                         style: .default)
+        let logInAction = UIAlertAction(title: "Log In",
+                                        style: .default) {
+                                            (_) in
+            let alert = UIAlertController(title: "Log In",
+                                          message: "",
+                                          preferredStyle: .alert)
+            
+            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+                
+                let emailField = alert.textFields![0]
+                let passwordField = alert.textFields![1]
+                
+                Auth.auth().signIn(withEmail: emailField.text!,
+                                   password: passwordField.text!){
+                                    (user, error) in
+                    if let user = Auth.auth().currentUser {
+                        if user.isEmailVerified {
+                            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.addRequestForm))
+                            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Sign Out",
+                                                                                    style: UIBarButtonItemStyle.plain ,
+                                                                                    target: self, action: #selector(self.signOutPressed))
+                        } else {
+                            guard let emailAddress = emailField.text else{
+                                return
+                            }
+                            let alertVC = UIAlertController(title: "Error", message: "Sorry. Your email address has not yet been verified. Do you want us to send another verification email to \(emailAddress)?", preferredStyle: .alert)
+                            let alertActionOkay = UIAlertAction(title: "Okay", style: .default) {
+                                (_) in
+                                user.sendEmailVerification(completion: nil)
+                            }
+                            let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                            
+                            alertVC.addAction(alertActionCancel)
+                            alertVC.addAction(alertActionOkay)
+                            self.present(alertVC, animated: true, completion: nil)
+                        }
+                    } else {
+                        let alertController = UIAlertController(title: "Error", message: "Authentication failed. Check your connection and credentials.", preferredStyle: .alert)
+                        
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alertController.addAction(defaultAction)
+                        
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                }
+            }
+            
+            let cancelAction = UIAlertAction(title: "Cancel",
+                                             style: .cancel)
+            
+            alert.addTextField { textEmail in
+                textEmail.placeholder = "Email"
+            }
+            
+            alert.addTextField { textPassword in
+                textPassword.isSecureTextEntry = true
+                textPassword.placeholder = "Password"
+            }
+            
+            alert.addAction(saveAction)
+            alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true, completion: nil)
+
+        }
+        let signUpAction = UIAlertAction(title: "Sign Up",
+                                         style: .default) {
+                                            (_) in
+                                            self.performSegue(withIdentifier: "SignUpSegue", sender: nil)
+//                                            let alert = UIAlertController(title: "Sign Up",
+//                                                                          message: "",
+//                                                                          preferredStyle: .alert)
+//
+//                                            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+//
+//                                                let emailField = alert.textFields![0]
+//                                                let passwordField = alert.textFields![1]
+//
+//                                                Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { user, error in
+//                                                    if error == nil {
+//                                                        Auth.auth().signIn(withEmail: emailField.text!,
+//                                                                           password: passwordField.text!)
+//                                                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add Request",
+//                                                                                         style: UIBarButtonItemStyle.plain ,
+//                                                                                         target: self, action: #selector(self.addRequestForm))
+//                                                        let userItem = UsersWithStatus(email: emailField.text!, isApproved: false)
+//                                                        if userItem == nil {
+////                                                           emptyFieldAlert()
+//                                                        } else{
+//                                                            let userItemRef = self.usersRef.child("users").childByAutoId()
+//                                                            userItemRef.setValue(userItem?.toAnyObject())
+//                                                        }
+//                                                    }
+//                                                }
+//                                            }
+//
+//                                            let cancelAction = UIAlertAction(title: "Cancel",
+//                                                                             style: .cancel)
+//
+//                                            alert.addTextField { textEmail in
+//                                                textEmail.placeholder = "Email"
+//                                            }
+//
+//                                            alert.addTextField { textPassword in
+//                                                textPassword.isSecureTextEntry = true
+//                                                textPassword.placeholder = "Password"
+//                                            }
+//
+//                                            alert.addAction(saveAction)
+//                                            alert.addAction(cancelAction)
+//
+//                                            self.present(alert, animated: true, completion: nil)
+        }
+        
+        orgOptions.addAction(cancelAction)
+        orgOptions.addAction(signUpAction)
+        orgOptions.addAction(logInAction)
+        
+        self.present(orgOptions, animated: true, completion: nil)
+    }
+    
+    @objc func addRequestForm() {
+        performSegue(withIdentifier: "presentAddRequest", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let indexPath = self.tableView.indexPathForSelectedRow {
-            // Get selected request
-            let request = requestDisplays[indexPath.row]
-            // Get our expanded view controller
-            let requestExpandedVC = segue.destination as! RequestExpandedViewController
-            // Pass selected request to our expanded view controller
-            requestExpandedVC.selectedRequest = request
+        if segue.identifier == "homeToExpanded"{
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                // Get selected request
+                let request = requestDisplays[indexPath.row]
+                // Get our expanded view controller
+                let requestExpandedVC = segue.destination as! RequestExpandedViewController
+                // Pass selected request to our expanded view controller
+                requestExpandedVC.selectedRequest = request
+            }
         }
     }
     

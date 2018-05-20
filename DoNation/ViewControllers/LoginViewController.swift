@@ -74,13 +74,20 @@ class LoginViewController: UIViewController {
                                     }
                                     let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
                                     
-                                    alertVC.addAction(alertActionOkay)
                                     alertVC.addAction(alertActionCancel)
+                                    alertVC.addAction(alertActionOkay)
                                     self.present(alertVC, animated: true, completion: nil)
                                 } else {
                                     print ("Email verified. Signing in...")
                                     self.performSegue(withIdentifier: self.loginToList, sender: nil)
                                 }
+                            } else {
+                                let alertController = UIAlertController(title: "Error", message: "Authentication failed. Check your connection and credentials.", preferredStyle: .alert)
+                                
+                                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                alertController.addAction(defaultAction)
+                                
+                                self.present(alertController, animated: true, completion: nil)
                             }
         }
     }

@@ -14,21 +14,22 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signUpEmailTextField: UITextField!
     @IBOutlet weak var signUpPwTextField: UITextField!
     @IBOutlet weak var signUpConfirmPwTextField: UITextField!
-    let usersRef = Database.database().reference(withPath: "users")
+    var usersRef: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usersRef = Database.database().reference(withPath: "donors")
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddRequestViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()
         view.addGestureRecognizer(tap)
     }
     
     @IBAction func signUpDonorPressed(_ sender: UIButton) {
-        signUp(isDonor: true)
+        signUp(isApproved: true)
     }
     
     @IBAction func signUpOrgPressed(_ sender: UIButton) {
-        signUp(isDonor: false)
+        signUp(isApproved: false)
     }
     
     @IBAction func signUpCancelPressed(_ sender: UIBarButtonItem) {
@@ -37,11 +38,12 @@ class SignUpViewController: UIViewController {
     
     
     
-    func signUp(isDonor: Bool) {
+    func signUp(isApproved: Bool) {
         if let signUpEmail = signUpEmailTextField.text {
             if let signUpPass = signUpPwTextField.text {
                 if signUpPass == signUpConfirmPwTextField.text {
                     Auth.auth().createUser(withEmail: signUpEmail, password: signUpPass) { user, error in
+//                        print(Auth.auth().currentUser)
                         if error == nil {
                             if let user = Auth.auth().currentUser {
                                 user.sendEmailVerification(completion: nil)
@@ -49,10 +51,10 @@ class SignUpViewController: UIViewController {
                         }
                     }
                     
-                    let userItem = UsersWithStatus(email: signUpEmail, isDonor: isDonor)
+                    let userItem = UsersWithStatus(email: signUpEmail, isApproved: isApproved)
                     if userItem == nil {
                         emptyFieldAlert()
-                    } else{
+                    } else {
                         let userItemRef = self.usersRef.child("users").childByAutoId()
                         userItemRef.setValue(userItem?.toAnyObject())
                         dismiss(animated: true, completion: nil)

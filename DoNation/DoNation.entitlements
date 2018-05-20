@@ -4,5 +4,12 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+<<<<<<< HEAD
+=======
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.lwong.donation.app</string>
+	</array>
+>>>>>>> a4803dd05f744e28c00bb3a673669e94d83bac3c
 </dict>
 </plist>
