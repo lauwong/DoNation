@@ -5,11 +5,17 @@
 	<key>aps-environment</key>
 	<string>development</string>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> a4803dd05f744e28c00bb3a673669e94d83bac3c
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)com.lwong.donation.app</string>
 	</array>
+<<<<<<< HEAD
+>>>>>>> a4803dd05f744e28c00bb3a673669e94d83bac3c
+=======
 >>>>>>> a4803dd05f744e28c00bb3a673669e94d83bac3c
 </dict>
 </plist>
