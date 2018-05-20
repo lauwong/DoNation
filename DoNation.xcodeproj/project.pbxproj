@@ -40,7 +40,7 @@
 		2B4A39541FA81D4800EE09D3 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		2B5AD3411FC361C800588BE1 /* RequestExpandedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestExpandedViewController.swift; sourceTree = "<group>"; };
 		2B5AD3451FC365DE00588BE1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		2B801A3A2028DF46006DA5C3 /* DoNation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DoNation.entitlements; sourceTree = "<group>"; };
+		2B7D195220B22FA000A76680 /* DoNation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DoNation.entitlements; sourceTree = "<group>"; };
 		2B8248721FBBAADD00360E1B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2B9B8B921FA55F250078F41F /* RequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		2BA08F9A202E1E4F000111DA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		2BCC62431F95A26C003DFE7B /* DoNation */ = {
 			isa = PBXGroup;
 			children = (
-				2B801A3A2028DF46006DA5C3 /* DoNation.entitlements */,
+				2B7D195220B22FA000A76680 /* DoNation.entitlements */,
 				2BCC62441F95A26C003DFE7B /* AppDelegate.swift */,
 				2B5AD3471FC4E2DB00588BE1 /* ViewControllers */,
 				2B5AD3481FC4E31100588BE1 /* Models */,
@@ -463,6 +463,7 @@
 			baseConfigurationReference = 9213509EE2C8D059EC25328D /* Pods-DoNation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NGV232X4L3;
@@ -484,6 +485,7 @@
 			baseConfigurationReference = 12DC0D7A23A91143F51A4BDD /* Pods-DoNation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = NGV232X4L3;
