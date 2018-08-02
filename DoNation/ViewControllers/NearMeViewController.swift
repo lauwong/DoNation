@@ -18,7 +18,7 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
     var ref: DatabaseReference!
     var usersRef: DatabaseReference!
     var locationManager: CLLocationManager!
-    static var chosenRequest: Requests = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", /* openFrom: "test", closingAt: "test",*/ requestedByUser: "test", contactEmail: "test", contactPhone: "test")!
+    static var chosenRequest: Requests = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", webAddress: "www.google.com", /* openFrom: "test", closingAt: "test",*/ requestedByUser: "test", contactEmail: "test", contactPhone: "test", donations: "0")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
                             let userIsApproved = users["isApproved"]
                             if let stringBoolApproved = userIsApproved, let boolApprovedTwo = stringBoolApproved {
                                 if String(describing: boolApprovedTwo) == "1" {
-                                    let fullAddress = requestItem.address + ", " + requestItem.state + " " + requestItem.zip
+                                    let fullAddress = requestItem.address
                                     let geoCoder = CLGeocoder()
                                     geoCoder.geocodeAddressString(fullAddress) { (placemarks, error) in
                                         let placemark = placemarks?.first
@@ -100,35 +100,35 @@ class NearMeViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let identifier = "MapPin"
-//
-//        if annotation is MapPin {
-//            if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
-//                annotationView.annotation = annotation
-//                return annotationView
-//            } else {
-//                let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-//                annotationView.isEnabled = true
-//                annotationView.canShowCallout = true
-//
-//                let btn = UIButton(type: .detailDisclosure)
-//                annotationView.rightCalloutAccessoryView = btn
-//                return annotationView
-//            }
-//        }
-//        return nil
-//    }
-//
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        let mapPin = view.annotation as! MapPin
-//        let placeName = mapPin.title
-//        let placeInfo = mapPin.subtitle
-//
-//        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
-//        ac.addAction(UIAlertAction(title: "OK", style: .default))
-//        present(ac, animated: true)
-//    }
+    //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    //        let identifier = "MapPin"
+    //
+    //        if annotation is MapPin {
+    //            if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+    //                annotationView.annotation = annotation
+    //                return annotationView
+    //            } else {
+    //                let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+    //                annotationView.isEnabled = true
+    //                annotationView.canShowCallout = true
+    //
+    //                let btn = UIButton(type: .detailDisclosure)
+    //                annotationView.rightCalloutAccessoryView = btn
+    //                return annotationView
+    //            }
+    //        }
+    //        return nil
+    //    }
+    //
+    //    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    //        let mapPin = view.annotation as! MapPin
+    //        let placeName = mapPin.title
+    //        let placeInfo = mapPin.subtitle
+    //
+    //        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
+    //        ac.addAction(UIAlertAction(title: "OK", style: .default))
+    //        present(ac, animated: true)
+    //    }
     
 }
 
@@ -162,8 +162,8 @@ extension NearMeViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView,
-                          annotationView view: MKAnnotationView,
-                          calloutAccessoryControlTapped control: UIControl) {
+                 annotationView view: MKAnnotationView,
+                 calloutAccessoryControlTapped control: UIControl) {
         
         let clickedAnnotation = view.annotation?.title
         
@@ -174,9 +174,9 @@ extension NearMeViewController: MKMapViewDelegate {
                     let requestItem = Requests(snapshot: item as! DataSnapshot)
                     
                     if requestItem.title == selectedAnnotation {
-                        print("your request is " + requestItem.title)
+//                        print("your request is " + requestItem.title)
                         NearMeViewController.chosenRequest = requestItem
-                        print(NearMeViewController.chosenRequest.title)
+//                        print(NearMeViewController.chosenRequest.title)
                         self.performSegue(withIdentifier: "AnnotationDetails", sender: nil)
                     }
                 }
@@ -189,7 +189,7 @@ extension NearMeViewController: MKMapViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AnnotationDetails" {
             let request = NearMeViewController.chosenRequest
-            print(NearMeViewController.chosenRequest.title)
+//            print(NearMeViewController.chosenRequest.title)
             
             // Get our expanded view controller
             let requestExpandedVC = segue.destination as! RequestExpandedViewController
@@ -201,9 +201,9 @@ extension NearMeViewController: MKMapViewDelegate {
     @objc func moreDetails() {
         print("More Details Button")
         
-//        let viewController:RequestExpandedViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RequestExpandedViewController") as! RequestExpandedViewController
-//        viewController.selectedRequest = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", openFrom: "test", closingAt: "test", requestedByUser: "test", approved: false)
-//        self.present(viewController, animated: false, completion: nil)
+        //        let viewController:RequestExpandedViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RequestExpandedViewController") as! RequestExpandedViewController
+        //        viewController.selectedRequest = Requests(title: "Test", organization: "Test", description: "Test", address: "Test", state: "CA", zip: "94110", openFrom: "test", closingAt: "test", requestedByUser: "test", approved: false)
+        //        self.present(viewController, animated: false, completion: nil)
     }
     
 }

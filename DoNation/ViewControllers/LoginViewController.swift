@@ -46,13 +46,13 @@ class LoginViewController: UIViewController {
         setupViewResizerOnKeyboardShown()
         
         // 1
-//        Auth.auth().addStateDidChangeListener() { auth, user in
-//            // 2
-//            if user != nil {
-//                // 3
-//
-//            }
-//        }
+        //        Auth.auth().addStateDidChangeListener() { auth, user in
+        //            // 2
+        //            if user != nil {
+        //                // 3
+        //
+        //            }
+        //        }
         
         view.addGestureRecognizer(tap)
     }
@@ -92,48 +92,48 @@ class LoginViewController: UIViewController {
         }
     }
     
-//    @IBAction func signUpDidTouch(_ sender: AnyObject) {
-//        let alert = UIAlertController(title: "Register",
-//                                      message: "Register",
-//                                      preferredStyle: .alert)
-//
-//        let saveAction = UIAlertAction(title: "Save",
-//                                       style: .default) { action in
-//                                        
-//                                        // 1
-//                                        let emailField = alert.textFields![0]
-//                                        let passwordField = alert.textFields![1]
-//
-//                                        // 2
-//                                        Auth.auth().createUser(withEmail: emailField.text!,
-//                                                                   password: passwordField.text!) { user, error in
-//                                                                    if error == nil {
-//                                                                        if let user = Auth.auth().currentUser{
-//                                                                        // 3
-//                                                                        user.sendEmailVerification(completion: nil)
-//                                                                        }
-//                                                                    }
-//                                        }
-//
-//        }
-//
-//        let cancelAction = UIAlertAction(title: "Cancel",
-//                                         style: .default)
-//
-//        alert.addTextField { textEmail in
-//            textEmail.placeholder = "Enter your email"
-//        }
-//
-//        alert.addTextField { textPassword in
-//            textPassword.isSecureTextEntry = true
-//            textPassword.placeholder = "Enter your password"
-//        }
-//
-//        alert.addAction(saveAction)
-//        alert.addAction(cancelAction)
-//
-//        present(alert, animated: true, completion: nil)
-//    }
+    //    @IBAction func signUpDidTouch(_ sender: AnyObject) {
+    //        let alert = UIAlertController(title: "Register",
+    //                                      message: "Register",
+    //                                      preferredStyle: .alert)
+    //
+    //        let saveAction = UIAlertAction(title: "Save",
+    //                                       style: .default) { action in
+    //
+    //                                        // 1
+    //                                        let emailField = alert.textFields![0]
+    //                                        let passwordField = alert.textFields![1]
+    //
+    //                                        // 2
+    //                                        Auth.auth().createUser(withEmail: emailField.text!,
+    //                                                                   password: passwordField.text!) { user, error in
+    //                                                                    if error == nil {
+    //                                                                        if let user = Auth.auth().currentUser{
+    //                                                                        // 3
+    //                                                                        user.sendEmailVerification(completion: nil)
+    //                                                                        }
+    //                                                                    }
+    //                                        }
+    //
+    //        }
+    //
+    //        let cancelAction = UIAlertAction(title: "Cancel",
+    //                                         style: .default)
+    //
+    //        alert.addTextField { textEmail in
+    //            textEmail.placeholder = "Enter your email"
+    //        }
+    //
+    //        alert.addTextField { textPassword in
+    //            textPassword.isSecureTextEntry = true
+    //            textPassword.placeholder = "Enter your password"
+    //        }
+    //
+    //        alert.addAction(saveAction)
+    //        alert.addAction(cancelAction)
+    //
+    //        present(alert, animated: true, completion: nil)
+    //    }
     
     @IBAction func resetPassword(_ sender: AnyObject) {
         
@@ -169,7 +169,7 @@ class LoginViewController: UIViewController {
             })
         }
     }
-
+    
     
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -232,5 +232,3 @@ extension UIViewController {
     
     
 }
-
-

@@ -16,12 +16,11 @@ class SettingsViewController: UIViewController, MFMailComposeViewControllerDeleg
     @IBOutlet weak var confirmPwTextField: UITextField!
     @IBOutlet weak var oldPwTextField: UITextField!
     @IBOutlet weak var changeEmailTextField: UITextField!
-    var usersRef: DatabaseReference!
+    var usersRef = Database.database().reference(withPath: "donors")
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        usersRef = Database.database().reference(withPath: "donors")
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SettingsViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()
         
@@ -36,7 +35,7 @@ class SettingsViewController: UIViewController, MFMailComposeViewControllerDeleg
         let saveAction = UIAlertAction(title: "Delete",
                                        style: .default) { action in
                                         
-            self.usersRef.child("donors").queryOrdered(byChild: "email").queryEqual(toValue: Auth.auth().currentUser?.email).observeSingleEvent(of: .value, with: { snapshot in
+            self.usersRef.child("users").queryOrdered(byChild: "email").queryEqual(toValue: Auth.auth().currentUser?.email).observeSingleEvent(of: .value, with: { snapshot in
                 for item in snapshot.children {
                     // 4
                     let userItem = UsersWithStatus(snapshot: item as! DataSnapshot)

@@ -16,23 +16,23 @@ import CoreLocation
 
 class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate {
     
-//    var info = [[String]]()
-//
-//    var titles = [String]()
-//    var orgs = [String]()
-//    var addresses = [String]()
-//    var states = [String]()
-//    var zipCodes = [String]()
-//    var openDates = [String]()
-//    var closeDates = [String]()
-//    var IDs = [String]()
-//    var needs = [String]()
+    //    var info = [[String]]()
+    //
+    //    var titles = [String]()
+    //    var orgs = [String]()
+    //    var addresses = [String]()
+    //    var states = [String]()
+    //    var zipCodes = [String]()
+    //    var openDates = [String]()
+    //    var closeDates = [String]()
+    //    var IDs = [String]()
+    //    var needs = [String]()
     
     @IBOutlet weak var requestScrollView: UIScrollView!
     
-//    @IBOutlet weak var openDateTextField: UITextField!
+    //    @IBOutlet weak var openDateTextField: UITextField!
     
-//    @IBOutlet weak var closeDateTextField: UITextField!
+    //    @IBOutlet weak var closeDateTextField: UITextField!
     
     @IBOutlet weak var titleTextField: UITextField!
     
@@ -40,9 +40,10 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
     
     @IBOutlet weak var addressTextField: UITextField!
     
-    @IBOutlet weak var stateTextField: UITextField!
-    
-    @IBOutlet weak var zipTextField: UITextField!
+    @IBOutlet weak var webAddressTextField: UITextField!
+    //    @IBOutlet weak var stateTextField: UITextField!
+//
+//    @IBOutlet weak var zipTextField: UITextField!
     
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -63,16 +64,17 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
         // Do any additional setup after loading the view, typically from a nib.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddRequestViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()
-//        createDatePicker()
+        //        createDatePicker()
         
         requestScrollView.delegate = self
-//        openDateTextField.delegate = self
-//        closeDateTextField.delegate = self
+        //        openDateTextField.delegate = self
+        //        closeDateTextField.delegate = self
         titleTextField.delegate = self
         orgTextField.delegate = self
         addressTextField.delegate = self
-        stateTextField.delegate = self
-        zipTextField.delegate = self
+        webAddressTextField.delegate = self
+//        stateTextField.delegate = self
+//        zipTextField.delegate = self
         emailTextField.delegate = self
         phoneTextField.delegate = self
         needsTextView.delegate = self
@@ -83,15 +85,15 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
         
         requestScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.size.height+100)
         
-//        info.append(titles)
-//        info.append(orgs)
-//        info.append(addresses)
-//        info.append(states)
-//        info.append(zipCodes)
-//        info.append(openDates)
-//        info.append(closeDates)
-//        info.append(IDs)
-//        info.append(needs)
+        //        info.append(titles)
+        //        info.append(orgs)
+        //        info.append(addresses)
+        //        info.append(states)
+        //        info.append(zipCodes)
+        //        info.append(openDates)
+        //        info.append(closeDates)
+        //        info.append(IDs)
+        //        info.append(needs)
         view.addGestureRecognizer(tap)
         
         Auth.auth().addStateDidChangeListener { auth, user in
@@ -99,34 +101,34 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
             self.user = UserClass(authData: user)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-//    func createDatePicker(){
-//        //format
-//        datePicker.datePickerMode = .date
-//
-//        //toolbar
-//        let toolbar = UIToolbar()
-//        toolbar.sizeToFit()
-//
-//        //flexible space
-//        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-//
-//        //bar button item
-//        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-//        toolbar.setItems([flexSpace, doneButton], animated: false)
-//
-//        openDateTextField.inputAccessoryView = toolbar
-//        closeDateTextField.inputAccessoryView = toolbar
-//
-//        //assigning datepicker to textfield
-//        openDateTextField.inputView = datePicker
-//        closeDateTextField.inputView = datePicker
-//    }
+    //    func createDatePicker(){
+    //        //format
+    //        datePicker.datePickerMode = .date
+    //
+    //        //toolbar
+    //        let toolbar = UIToolbar()
+    //        toolbar.sizeToFit()
+    //
+    //        //flexible space
+    //        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+    //
+    //        //bar button item
+    //        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+    //        toolbar.setItems([flexSpace, doneButton], animated: false)
+    //
+    //        openDateTextField.inputAccessoryView = toolbar
+    //        closeDateTextField.inputAccessoryView = toolbar
+    //
+    //        //assigning datepicker to textfield
+    //        openDateTextField.inputView = datePicker
+    //        closeDateTextField.inputView = datePicker
+    //    }
     
     @objc func donePressed(){
         //format date
@@ -135,11 +137,11 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
         dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "en_US")
         
-//        if(openDateTextField .isFirstResponder){
-//            openDateTextField.text = dateFormatter.string(from: datePicker.date)
-//        } else if (closeDateTextField .isFirstResponder) {
-//            closeDateTextField.text = dateFormatter.string(from: datePicker.date)
-//        }
+        //        if(openDateTextField .isFirstResponder){
+        //            openDateTextField.text = dateFormatter.string(from: datePicker.date)
+        //        } else if (closeDateTextField .isFirstResponder) {
+        //            closeDateTextField.text = dateFormatter.string(from: datePicker.date)
+        //        }
         self.view.endEditing(true)
     }
     
@@ -149,28 +151,29 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
     }
     
     @IBAction func requestDonePressed(_ sender: UIBarButtonItem) {
-//        info[0].append(titleTextField.text!)
-//        info[1].append(orgTextField.text!)
-//        info[2].append(addressTextField.text!)
-//        info[3].append(openDateTextField.text!)
-//        info[4].append(closeDateTextField.text!)
-//        info[5].append(openDateTextField.text!)
-//        info[6].append(closeDateTextField.text!)
-//        info[7].append(IdTextField.text!)
-//        info[8].append(needsTextView.text!)
-//        print(info)
+        //        info[0].append(titleTextField.text!)
+        //        info[1].append(orgTextField.text!)
+        //        info[2].append(addressTextField.text!)
+        //        info[3].append(openDateTextField.text!)
+        //        info[4].append(closeDateTextField.text!)
+        //        info[5].append(openDateTextField.text!)
+        //        info[6].append(closeDateTextField.text!)
+        //        info[7].append(IdTextField.text!)
+        //        info[8].append(needsTextView.text!)
+        //        print(info)
         
         let titleText = self.titleTextField.text!
         let organizationText = self.orgTextField.text!
         let descriptionText = self.needsTextView.text!
         let addressText = self.addressTextField.text!
-        let stateText = self.stateTextField.text!
-        let zipText = self.zipTextField.text!
+        let webAddressText = self.webAddressTextField.text!
+//        let stateText = self.stateTextField.text!
+//        let zipText = self.zipTextField.text!
         let emailAddress = self.emailTextField.text!
         let phoneNumber = self.phoneTextField.text!
         
         if let currentUser = Auth.auth().currentUser, let currentEmail = currentUser.email {
-            let requestItem = Requests(title: titleText, organization: organizationText, description: descriptionText, address: addressText, state: stateText, zip: zipText, requestedByUser: currentEmail, contactEmail: emailAddress, contactPhone: phoneNumber)
+            let requestItem = Requests(title: titleText, organization: organizationText, description: descriptionText, address: addressText, webAddress: webAddressText, requestedByUser: currentEmail, contactEmail: emailAddress, contactPhone: phoneNumber, donations: "0")
             
             if requestItem == nil {
                 let alertEmpty = UIAlertController(title: "Empty Field",
@@ -209,5 +212,3 @@ class AddRequestViewController: UIViewController, UITextFieldDelegate, UITextVie
     }
     
 }
-
-

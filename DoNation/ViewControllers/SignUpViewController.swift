@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var signUpEmailTextField: UITextField!
     @IBOutlet weak var signUpPwTextField: UITextField!
@@ -18,9 +18,15 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         usersRef = Database.database().reference(withPath: "donors")
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AddRequestViewController.dismissKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SignUpViewController.dismissKeyboard))
         setupViewResizerOnKeyboardShown()
+        
+        signUpEmailTextField.delegate = self
+        signUpPwTextField.delegate = self
+        signUpConfirmPwTextField.delegate = self
+        
         view.addGestureRecognizer(tap)
     }
     
@@ -39,11 +45,10 @@ class SignUpViewController: UIViewController {
     
     
     func signUp(isApproved: Bool) {
-        if let signUpEmail = signUpEmailTextField.text {
-            if let signUpPass = signUpPwTextField.text {
+        if let signUpEmail = signUpEmailTextField.text, let signUpPass = signUpPwTextField.text {
                 if signUpPass == signUpConfirmPwTextField.text {
                     Auth.auth().createUser(withEmail: signUpEmail, password: signUpPass) { user, error in
-//                        print(Auth.auth().currentUser)
+                        //                        print(Auth.auth().currentUser)
                         if error == nil {
                             if let user = Auth.auth().currentUser {
                                 user.sendEmailVerification(completion: nil)
@@ -70,9 +75,6 @@ class SignUpViewController: UIViewController {
                     signUpConfirmNotEqualAlert.addAction(cancelAction)
                     present(signUpConfirmNotEqualAlert, animated: true, completion: nil)
                 }
-            } else {
-                emptyFieldAlert()
-            }
         } else {
             emptyFieldAlert()
         }
@@ -80,11 +82,17 @@ class SignUpViewController: UIViewController {
     
     func emptyFieldAlert() {
         let alertEmptyField = UIAlertController(title: "Empty Field",
-                                           message: "You have an empty field. Please fill every field to submit.",
-                                           preferredStyle: .alert)
+                                                message: "You have an empty field. Please fill every field to submit.",
+                                                preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Dismiss",
                                          style: .default)
         alertEmptyField.addAction(cancelAction)
         present(alertEmptyField, animated: true, completion: nil)
     }
+    
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
 }

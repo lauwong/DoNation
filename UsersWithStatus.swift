@@ -12,20 +12,22 @@ import Firebase
 class UsersWithStatus {
     //MARK: Properties
     var email: String
-    /*var contactPhone: String
-    var webAddress: String */
+//    var contactPhone: String
+//    var webAddress: String
+//    var orgName: String
     var isApproved: Bool
     let usersRef: DatabaseReference?
     let key: String
     
-    init?(email: String, /*contactPhone: String, webAddress: String,*/ isApproved: Bool, key: String = "") {
-        if email.isEmpty /*|| contactPhone.isEmpty || webAddress.isEmpty*/ {
+    init?(email: String, isApproved: Bool, key: String = "") {
+        if email.isEmpty {
             return nil
         }
         self.key = key
         self.email = email
-        /*self.contactPhone = contactPhone
-        self.webAddress = webAddress */
+//        self.contactPhone = contactPhone
+//        self.webAddress = webAddress
+//        self.orgName = orgName
         self.isApproved = isApproved
         self.usersRef = nil
     }
@@ -34,8 +36,9 @@ class UsersWithStatus {
         key = snapshot.key
         let snapshotValue = snapshot.value as! [String: AnyObject]
         email = snapshotValue["email"] as! String
-        /*contactPhone = snapshotValue["contactPhone"] as! String
-        webAddress = snapshotValue["webAddress"] as! String*/
+//        contactPhone = snapshotValue["contactPhone"] as? String ?? ""
+//        webAddress = snapshotValue["webAddress"] as? String ?? ""
+//        orgName = snapshotValue["orgName"] as? String ?? ""
         isApproved = snapshotValue["isApproved"] as! Bool
         usersRef = snapshot.ref
     }
@@ -43,9 +46,10 @@ class UsersWithStatus {
     func toAnyObject() -> Any {
         return [
             "email": email,
-            /*"contactPhone": contactPhone,
-            "webAddress": webAddress,*/
-            "isApproved": isApproved,
+//            "contactPhone": contactPhone,
+//            "webAddress": webAddress,
+//            "orgName": orgName,
+            "isApproved": isApproved
         ]
     }
     
