@@ -158,7 +158,7 @@ class RequestTableViewController: UITableViewController {
                                                                           message: "",
                                                                           preferredStyle: .alert)
                                             
-                                            let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+                                            let saveAction = UIAlertAction(title: "Log In", style: .default) { _ in
                                                 
                                                 let emailField = alert.textFields![0]
                                                 let passwordField = alert.textFields![1]
@@ -181,7 +181,7 @@ class RequestTableViewController: UITableViewController {
                                                                                 (_) in
                                                                                 user.sendEmailVerification(completion: nil)
                                                                             }
-                                                                            let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+                                                                            let alertActionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                                                                             
                                                                             alertVC.addAction(alertActionCancel)
                                                                             alertVC.addAction(alertActionOkay)
@@ -190,7 +190,7 @@ class RequestTableViewController: UITableViewController {
                                                                     } else {
                                                                         let alertController = UIAlertController(title: "Error", message: "Authentication failed. Check your connection and credentials.", preferredStyle: .alert)
                                                                         
-                                                                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                                                                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                                                                         alertController.addAction(defaultAction)
                                                                         
                                                                         self.present(alertController, animated: true, completion: nil)
@@ -309,8 +309,21 @@ class RequestTableViewController: UITableViewController {
     
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
          if editingStyle == .delete {
-            let requestItem = requestDisplays[indexPath.row]
-            requestItem.ref?.removeValue()
+            let confirmDelete = UIAlertController(title: "Delete this request permanently?",
+                                               message: "You will not be able to undo this action.",
+                                               preferredStyle: .alert)
+            let deleteAction = UIAlertAction(title: "Delete",
+                                             style: .destructive) {
+                                                (_) in
+                                                let requestItem = self.requestDisplays[indexPath.row]
+                                                requestItem.ref?.removeValue()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel",
+                                             style: .default)
+            confirmDelete.addAction(deleteAction)
+            confirmDelete.addAction(cancelAction)
+            self.present(confirmDelete, animated: true, completion: nil)
+            
          }
      }
     
