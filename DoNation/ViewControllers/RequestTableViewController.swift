@@ -304,7 +304,6 @@ class RequestTableViewController: UITableViewController {
                 }
             }
         }
-        print(isByUser)
         return isByUser
      }
     
