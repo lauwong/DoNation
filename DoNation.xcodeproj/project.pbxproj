@@ -466,7 +466,7 @@
 				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = NGV232X4L3;
+				DEVELOPMENT_TEAM = M24X8D5254;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -488,7 +488,7 @@
 				CODE_SIGN_ENTITLEMENTS = DoNation/DoNation.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = NGV232X4L3;
+				DEVELOPMENT_TEAM = M24X8D5254;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
