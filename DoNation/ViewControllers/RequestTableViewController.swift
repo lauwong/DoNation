@@ -82,14 +82,23 @@ class RequestTableViewController: UITableViewController {
                     self.requestDisplays = newItems
                     self.tableView.reloadData()
                     
-                    if(self.requestDisplays.count < 1) {
-                        let noRequests = UIAlertController(title: "No Requests",
-                                                           message: "There are currently no requests. Come back later to check!",
-                                                           preferredStyle: .alert)
-                        let cancelAction = UIAlertAction(title: "OK",
-                                                         style: .default)
-                        noRequests.addAction(cancelAction)
-                        self.present(noRequests, animated: true, completion: nil)
+//                    if(self.requestDisplays.count < 1) {
+//                        let noRequests = UIAlertController(title: "No Requests",
+//                                                           message: "There are currently no requests. Come back later to check!",
+//                                                           preferredStyle: .alert)
+//                        let cancelAction = UIAlertAction(title: "OK",
+//                                                         style: .default)
+//                        noRequests.addAction(cancelAction)
+//                        self.present(noRequests, animated: true, completion: nil)
+//                    }
+                    
+                    var token = [String: Bool]()
+                    let defaults = UserDefaults.standard
+                    for item in self.requestDisplays {
+                        if token[item.title] == nil{
+                            token[item.title] = false
+                            defaults.set(token, forKey: "hasDonatedDict")
+                        }
                     }
                     
                 })
